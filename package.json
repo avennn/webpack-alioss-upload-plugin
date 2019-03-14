@@ -1,0 +1,32 @@
+{
+  "name": "webpack-alioss-upload-plugin",
+  "version": "1.0.0",
+  "description": "A webpack plugin to upload files to aliyun oss, which supports multiple optional upload method",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avennn/webpack-alioss-upload-plugin.git"
+  },
+  "keywords": [
+    "webpack4",
+    "ali",
+    "oss"
+  ],
+  "author": "Javen Leung",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/avennn/webpack-alioss-upload-plugin/issues"
+  },
+  "homepage": "https://github.com/avennn/webpack-alioss-upload-plugin#readme",
+  "dependencies": {
+    "ali-oss": "^6.1.0",
+    "bluebird": "^3.5.3",
+    "chalk": "^2.4.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.15.1"
+  }
+}
