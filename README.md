@@ -16,7 +16,7 @@ yarn add webpack-alioss-upload-plugin -D
 
 ## Usage
 
-Simplest usage.
+Here is a Simplest usage.
 
 ```javascript
 const AliOSSUploadPlugin = require('webpack-alioss-upload-plugin');
