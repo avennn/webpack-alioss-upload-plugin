@@ -19,8 +19,9 @@ const defaultCfg = {
   uploadType: 'multipart',
   uploadOptions: {
     parallel: 4, // [multipart]
-    partSize: 1024 * 100, // 100M [multipart]
+    partSize: 1024 * 200, // 200M [multipart]
     timeout: 6000, // 6s [put, stream, multipart]
+    retries: 5, // [multipart]
     useChunk: false // [stream]
   },
   concurrency: 3,
@@ -178,10 +179,10 @@ class AliOSSUploadPlugin {
   }
 
   async multipartUpload(fileName, localPath) {
-    const { parallel, partSize, timeout } = this.config.uploadOptions;
+    const { parallel, partSize, timeout, retries } = this.config.uploadOptions;
     const ossFileName = this.getOssFileName(fileName);
     let checkpoint;
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < retries; i++) {
       try {
         const result = await this.client.multipartUpload(ossFileName, localPath, {
           parallel,
