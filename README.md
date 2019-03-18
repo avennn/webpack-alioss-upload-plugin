@@ -2,16 +2,16 @@
 
 A webpack plugin to upload files to aliyun oss, which supports multiple optional upload method
 
-## Install
+## Installation
 
 ```bash
-npm i webpack-alioss-upload-plugin -D
+$ npm i webpack-alioss-upload-plugin -D
 ```
 
 or
 
 ```bash
-yarn add webpack-alioss-upload-plugin -D
+$ yarn add webpack-alioss-upload-plugin -D
 ```
 
 ## Usage

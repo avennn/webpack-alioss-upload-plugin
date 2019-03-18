@@ -1,10 +1,10 @@
-
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const OSS = require('ali-oss');
 const Promise = require('bluebird');
 const chalk = require('chalk');
+const ProgressBar = require('ascii-progress');
 
 const green = chalk.green;
 const red = chalk.red;
@@ -50,29 +50,23 @@ class AliOSSUploadPlugin {
     const { uploadType } = this.config;
     if (uploadType === 'put') {
       compiler.hooks.emit.tapAsync('AliOSSUploadPlugin', async (compilation, callback) => {
-        const assets = this.filterAssets(compilation.assets);
-        this.stats.len = assets.length;
-        this.log(green(`文件开始上传, total: ${this.stats.len}`));
+        const assets = this.commonHandle(compilation);
         await this.putUploadFiles(assets);
-        this.briefLog();
+        this.endLog();
         callback();
       });
     } else if (uploadType === 'stream') {
       compiler.hooks.afterEmit.tapAsync('AliOSSUploadPlugin', async (compilation, callback) => {
-        const assets = this.filterAssets(compilation.assets);
-        this.stats.len = assets.length;
-        this.log(green(`文件开始上传, total: ${this.stats.len}`));
+        const assets = this.commonHandle(compilation);
         await this.streamUploadFiles(compiler, assets);
-        this.briefLog();
+        this.endLog();
         callback();
       });
     } else {
       compiler.hooks.afterEmit.tapAsync('AliOSSUploadPlugin', async (compilation, callback) => {
-        const assets = this.filterAssets(compilation.assets);
-        this.stats.len = assets.length;
-        this.log(green(`文件开始上传, total: ${this.stats.len}`));
+        const assets = this.commonHandle(compilation);
         await this.multipartUploadFiles(compiler, assets);
-        this.briefLog();
+        this.endLog();
         callback();
       });
     }
@@ -114,6 +108,31 @@ class AliOSSUploadPlugin {
     return path.join(prefix, fileName);
   }
 
+  commonHandle(compilation) {
+    const { debug } = this.config;
+    const assets = this.filterAssets(compilation.assets);
+    this.stats.len = assets.length;
+    this.log(green(`文件开始上传, total: ${this.stats.len}`));
+    if (!debug) {
+      this.bar = new ProgressBar({
+        schema: ':prefix.yellow [:bar.yellow] :current.yellow/:total.yellow',
+        total: this.stats.len
+      });
+    }
+    return assets;
+  }
+
+  showProgress(name) {
+    const { debug } = this.config;
+    this.log(green(`上传成功：${name} `), yellow(this.getPercentage()));
+    if (!debug) {
+      this.bar.tick({
+        current: this.stats.currentIndex,
+        prefix: '[WebpackAliOSSUploadPlugin]'
+      });
+    }
+  }
+
   putUploadFiles(files) {
     const { concurrency } = this.config;
     return Promise.map(
@@ -149,14 +168,14 @@ class AliOSSUploadPlugin {
     try {
       const result = await this.client.put(ossFileName, Buffer.from(content), { timeout });
       this.stats.currentIndex++;
-      this.log(green(`上传成功：${result.name} `), yellow(this.getPercentage()));
+      this.showProgress(result.name);
     } catch (e) {
       this.log(red(JSON.stringify(e)));
     }
   }
 
   async putStream(fileName, localPath) {
-    const { useChunk, timeout } = this.config.uploadOptions;
+    const { timeout, useChunk } = this.config.uploadOptions;
     const ossFileName = this.getOssFileName(fileName);
     try {
       let result = {};
@@ -172,7 +191,7 @@ class AliOSSUploadPlugin {
         result = await this.client.putStream(ossFileName, stream, { timeout });
       }
       this.stats.currentIndex++;
-      this.log(green(`上传成功：${result.name} `), yellow(this.getPercentage()));
+      this.showProgress(result.name);
     } catch (e) {
       this.log(red(JSON.stringify(e)));
     }
@@ -194,7 +213,7 @@ class AliOSSUploadPlugin {
           }
         });
         this.stats.currentIndex++;
-        this.log(green(`上传成功：${result.name} `), yellow(this.getPercentage()));
+        this.showProgress(result.name);
         break;
       } catch (e) {
         this.log(red(JSON.stringify(e)));
@@ -217,9 +236,10 @@ class AliOSSUploadPlugin {
     }
   }
 
-  briefLog() {
+  endLog() {
     const { currentIndex, len } = this.stats;
-    console.log(yellow(`[WebpackAliOSSUploadPlugin] success/total: ${currentIndex}/${len}`));
+    let desc = currentIndex < len ? 'finished, 1 failed' : 'success';
+    console.log(yellow(`[WebpackAliOSSUploadPlugin] ${desc}`));
   }
 }
 

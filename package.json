@@ -23,6 +23,7 @@
   "homepage": "https://github.com/avennn/webpack-alioss-upload-plugin#readme",
   "dependencies": {
     "ali-oss": "^6.1.0",
+    "ascii-progress": "^1.0.5",
     "bluebird": "^3.5.3",
     "chalk": "^2.4.2"
   },
