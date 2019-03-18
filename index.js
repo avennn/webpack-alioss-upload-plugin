@@ -115,6 +115,7 @@ class AliOSSUploadPlugin {
     this.log(green(`文件开始上传, total: ${this.stats.len}`));
     if (!debug) {
       this.bar = new ProgressBar(':prefix [:bar] :current/:total', {
+        stream: process.stdout,
         width: 50,
         incomplete: ' ',
         total: this.stats.len
