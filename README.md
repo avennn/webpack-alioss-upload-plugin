@@ -39,7 +39,7 @@ module.exports = {
 - `accessKeySecret`: [String] the accessKeySecret of your oss, `required`;
 - `region`: [String] the region of your oss, `required`;
 - `bucket`: [String] the bucket name of your oss, `required`;
-- `prefix`: [String] the path to direct to files on oss, if configured, looks like "https://${bucket}.${region}.aliyuncs.com/${prefix}/local-resolved-file-name", default `''`;
+- `prefix`: [String] the path to direct to files on oss, if configured, it looks like "https://${bucket}.${region}.aliyuncs.com/${prefix}/local-resolved-file-name", default `''`;
 - `uploadType`: [String], has three types(`put`|`stream`|`multipart`), corresponding to alioss's upload methods(`put`|`putStream`|`multipart`), default `multipart`, more info see [here](https://github.com/ali-sdk/ali-oss);
 - `uploadOptions`: [Object]
   - `parallel`: [Number] the number of parts to be uploaded in parallel, default `4`;

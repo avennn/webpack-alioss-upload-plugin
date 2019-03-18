@@ -219,7 +219,6 @@ class AliOSSUploadPlugin {
         break;
       } catch (e) {
         this.log(red(JSON.stringify(e)));
-        // 捕获超时异常
         if (e.code === 'ConnectionTimeoutError') {
           this.log(red('ConnectionTimeoutError: 可尝试'), yellow('缩小分片大小'), red('|'), yellow('加大超时时间'), red('|'), yellow('加大重试次数'));
         }
