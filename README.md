@@ -1,12 +1,8 @@
 # webpack-alioss-upload-plugin
 
-***
-
 A flexible webpack plugin to upload files to aliyun oss, which supports multiple optional upload methods and parameters.
 
 ## Installation
-
-***
 
 ```bash
 npm i webpack-alioss-upload-plugin -D
@@ -19,8 +15,6 @@ yarn add webpack-alioss-upload-plugin -D
 ```
 
 ## Usage
-
-***
 
 Here is a simplest usage.
 
@@ -41,8 +35,6 @@ module.exports = {
 
 ## Options
 
-***
-
 - `accessKeyId`: [String] the accessKeyId of your oss, `required`;
 - `accessKeySecret`: [String] the accessKeySecret of your oss, `required`;
 - `region`: [String] the region of your oss, `required`;
@@ -61,6 +53,8 @@ module.exports = {
 
 ## License
 
-***
-
 [MIT](./LICENSE)
+
+## Author
+
+Javen Leung
