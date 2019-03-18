@@ -4,7 +4,7 @@ const assert = require('assert');
 const OSS = require('ali-oss');
 const Promise = require('bluebird');
 const chalk = require('chalk');
-const ProgressBar = require('ascii-progress');
+const ProgressBar = require('progress');
 
 const green = chalk.green;
 const red = chalk.red;
@@ -114,8 +114,9 @@ class AliOSSUploadPlugin {
     this.stats.len = assets.length;
     this.log(green(`文件开始上传, total: ${this.stats.len}`));
     if (!debug) {
-      this.bar = new ProgressBar({
-        schema: ':prefix.yellow [:bar.yellow] :current.yellow/:total.yellow',
+      this.bar = new ProgressBar(':prefix [:bar] :current/:total', {
+        width: 50,
+        incomplete: ' ',
         total: this.stats.len
       });
     }
@@ -127,7 +128,7 @@ class AliOSSUploadPlugin {
     this.log(green(`上传成功：${name} `), yellow(this.getPercentage()));
     if (!debug) {
       this.bar.tick({
-        current: this.stats.currentIndex,
+        curr: this.stats.currentIndex,
         prefix: '[WebpackAliOSSUploadPlugin]'
       });
     }
