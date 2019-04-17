@@ -79,7 +79,11 @@ class AliOSSUploadPlugin {
     };
     const customUploadOpts = opts.uploadOptions || {};
     config.uploadOptions = { ...defaultCfg.uploadOptions, ...customUploadOpts };
-    config.excludes = Array.isArray(opts.excludes) ? [...defaultCfg.excludes, ...opts.excludes] : [opts.excludes];
+    if (Array.isArray(opts.excludes)) {
+      config.excludes = [...defaultCfg.excludes, ...opts.excludes];
+    } else if (opts.excludes) {
+      config.excludes = [opts.excludes];
+    }
     return config;
   }
 

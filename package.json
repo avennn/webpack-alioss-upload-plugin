@@ -1,6 +1,6 @@
 {
   "name": "webpack-alioss-upload-plugin",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "A webpack plugin to upload files to aliyun oss, which supports multiple optional upload method",
   "main": "index.js",
   "scripts": {
