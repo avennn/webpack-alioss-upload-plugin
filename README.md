@@ -33,15 +33,15 @@ yarn add webpack-alioss-upload-plugin -D
 Here is a simplest usage.
 
 ```javascript
-const AliOSSUploadPlugin = require('webpack-alioss-upload-plugin');
+const AliOSSUploadPlugin = require("webpack-alioss-upload-plugin");
 // webpack config
 module.exports = {
   plugins: [
     new AliOSSUploadPlugin({
-      accessKeyId: 'your.oss.accessKeyId',
-      accessKeySecret: 'your.oss.accessKeySecret',
-      region: 'your.oss.region',
-      bucket: 'your.oss.bucket'
+      accessKeyId: "your.oss.accessKeyId",
+      accessKeySecret: "your.oss.accessKeySecret",
+      region: "your.oss.region",
+      bucket: "your.oss.bucket"
     })
   ]
 };
@@ -67,7 +67,7 @@ module.exports = {
 
 ## Contribution and Issues
 
-Feel free to contribute code or publish an issue, if you has any good idea or find a bug.
+Feel free to contribute code or publish an issue, whenever you have any good idea or find a bug.
 
 ## License
 
